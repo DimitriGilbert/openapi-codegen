@@ -156,6 +156,7 @@ function main(o, config, configName, callback) {
                             camel:Case.camel(model.classname),
                             kebab:Case.kebab(model.classname)
                         }});
+                        console.log(effModel)
                         outer.models.push(effModel);
                         let filename = fnTemplate.render(outer,config.partials);
                         if (verbose) console.log('Rendering '+filename+' (dynamic:'+pm.input+')');
