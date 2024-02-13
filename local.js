@@ -8,6 +8,7 @@ const util = require('util');
 const mkdirp = require('mkdirp');
 const rimraf = require('rimraf');
 const Hogan = require('hogan.js');
+const Case = require('case');
 const clone = require('reftools/lib/clone.js').circularClone; // must preserve functions
 
 const adaptor = require('./adaptor.js');
@@ -109,6 +110,12 @@ function main(o, config, configName, callback) {
             }
 
             let outer = model;
+            outer._cased = {
+                snake:Case.snake(model.classname),
+                pascal:Case.pascal(model.classname),
+                camel:Case.camel(model.classname),
+                kebab:Case.kebab(model.classname)
+            }
 
             if (config.perApi) {
                 let toplevel = clone(model);
