@@ -150,12 +150,13 @@ function main(o, config, configName, callback) {
                     let template = Hogan.compile(ff.readFileSync(tpl(config, configName, pm.input), 'utf8'));
                     for (let model of cModels) {
                         outer.models = [];
-                        let effModel = Object.assign({},model,pm.defaults||{}, {_cased:{
-                            snake:Case.snake(model.classname),
-                            pascal:Case.pascal(model.classname),
-                            camel:Case.camel(model.classname),
-                            kebab:Case.kebab(model.classname)
-                        }});
+                        let effModel = Object.assign({},model,pm.defaults||{});
+                        effModel._cased = {
+                            snake:Case.snake(effModel.classname),
+                            pascal:Case.pascal(effModel.classname),
+                            camel:Case.camel(effModel.classname),
+                            kebab:Case.kebab(effModel.classname)
+                        }
                         console.log(effModel,model.classname)
                         outer.models.push(effModel);
                         let filename = fnTemplate.render(outer,config.partials);
