@@ -149,19 +149,13 @@ function main(o, config, configName, callback) {
                     let fnTemplate = Hogan.compile(pm.output);
                     let template = Hogan.compile(ff.readFileSync(tpl(config, configName, pm.input), 'utf8'));
                     for (let model of cModels) {
-                        let snake = Case.snake(model.model.classname);
-                        let pascal = Case.pascal(model.model.classname);
-                        let camel = Case.camel(model.model.classname);
-                        let kebab = Case.kebab(model.model.classname);
                         outer.models = [];
-                        let effModel = Object.assign({},model,pm.defaults||{});
-                        effModel._cased = {
-                            snake:snake,
-                            pascal:pascal,
-                            camel:camel,
-                            kebab:kebab
-                        }
-                        console.log(effModel, Case.pascal(effModel.classname))
+                        let effModel = Object.assign({},model,pm.defaults||{}, {_cased:{
+                            snake:Case.snake(model.model.classname),
+                            pascal:Case.pascal(model.model.classname),
+                            camel:Case.camel(model.model.classname),
+                            kebab:Case.kebab(model.model.classname)
+                        }});
                         outer.models.push(effModel);
                         let filename = fnTemplate.render(outer,config.partials);
                         if (verbose) console.log('Rendering '+filename+' (dynamic:'+pm.input+')');
