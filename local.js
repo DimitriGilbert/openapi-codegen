@@ -17,7 +17,13 @@ const lambdas = require('./lambdas.js');
 // allows other backends, such as a stream writer for .tar.gz files
 let ff = {
     readFileSync: fs.readFileSync,
-    createFile: fs.writeFileSync,
+    createFile: ( file, data, options ) => {
+        let drn = path.dirname(file);
+        if (!fs.existsSync(drn)) {
+            fs.mkdirSync(drn, { recursive: true });
+        }
+        fs.writeFileSync( file, data, options )
+    },
     rimraf: rimraf,
     mkdirp: mkdirp
 };
